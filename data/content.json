@@ -1,0 +1,212 @@
+{
+  "hero": {
+    "phrases": [
+      "ROBOTICS LAB CLUB",
+      "BUILD. INNOVATE.",
+      "CONQUER.",
+      "AUTONOMOUS SYSTEMS",
+      "THE FUTURE IS NOW",
+      "ENGINEERING EXCELLENCE"
+    ],
+    "tagline": "Where machines think and engineers dream.",
+    "ctaPrimary": "EXPLORE →",
+    "ctaSecondary": "JOIN US",
+    "badge": "EST. 2022 · ROBOTICS DIVISION"
+  },
+  "about": {
+    "heading": "About Robotics Lab Club",
+    "paragraphs": [
+      "Robotics Lab Club is an elite student-led robotics and engineering club. Founded by passionate engineers, we are dedicated to building the next generation of autonomous machines and innovators.",
+      "Our team competes at national level competitions, conducts hands-on workshops, and collaborates on cutting-edge research projects. We believe in learning by building — because real engineers get their hands dirty.",
+      "From line-following robots to autonomous drones, from computer vision systems to full-stack IoT platforms — if it can be engineered, we'll build it."
+    ],
+    "techTags": [
+      "Raspberry Pi",
+      "Arduino",
+      "ROS2",
+      "OpenCV",
+      "Python",
+      "C++",
+      "PCB Design",
+      "ML/AI"
+    ],
+    "pillars": [
+      {
+        "icon": "Cpu",
+        "title": "Autonomous Systems",
+        "description": "We design and program robots capable of independent decision-making using sensor fusion and ML algorithms."
+      },
+      {
+        "icon": "Code2",
+        "title": "Software Engineering",
+        "description": "From embedded C to Python ML pipelines — our members master the full stack of robotics software."
+      },
+      {
+        "icon": "Zap",
+        "title": "Electronics & PCB Design",
+        "description": "Custom motor drivers, sensor boards, and power management systems built from scratch."
+      },
+      {
+        "icon": "Globe",
+        "title": "Competitive Robotics",
+        "description": "We compete in national and international robotics competitions — and we win."
+      }
+    ],
+    "imageUrl": "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=800&q=80",
+    "imageCaption": "LAB IN SESSION"
+  },
+  "stats": {
+    "stats": [],
+    "subStats": []
+  },
+  "events": {
+    "events": []
+  },
+  "teams": {
+    "teams": [
+      {
+        "id": "team-1",
+        "division": "Core Leadership",
+        "tag": "LEADERSHIP",
+        "members": [
+          {
+            "id": "m-1",
+            "name": "Arjun Mehta",
+            "role": "Club President",
+            "focus": "Autonomous Systems & Strategy",
+            "image": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&q=80",
+            "github": "#",
+            "linkedin": "#"
+          },
+          {
+            "id": "m-2",
+            "name": "Priya Sharma",
+            "role": "Vice President",
+            "focus": "Machine Learning & Computer Vision",
+            "image": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=300&q=80",
+            "github": "#",
+            "linkedin": "#"
+          },
+          {
+            "id": "m-3",
+            "name": "Rahul Verma",
+            "role": "Technical Lead",
+            "focus": "Embedded Systems & ROS2",
+            "image": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=300&q=80",
+            "github": "#",
+            "linkedin": "#"
+          }
+        ]
+      },
+      {
+        "id": "team-2",
+        "division": "Engineering Teams",
+        "tag": "ENGINEERING",
+        "members": [
+          {
+            "id": "m-4",
+            "name": "Sneha Patel",
+            "role": "Hardware Lead",
+            "focus": "PCB Design & Motor Control",
+            "image": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=300&q=80",
+            "github": "#",
+            "linkedin": "#"
+          },
+          {
+            "id": "m-5",
+            "name": "Karan Singh",
+            "role": "Software Lead",
+            "focus": "Path Planning & Navigation",
+            "image": "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=300&q=80",
+            "github": "#",
+            "linkedin": "#"
+          },
+          {
+            "id": "m-6",
+            "name": "Ananya Roy",
+            "role": "AI/ML Engineer",
+            "focus": "Object Detection & SLAM",
+            "image": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=300&q=80",
+            "github": "#",
+            "linkedin": "#"
+          }
+        ]
+      }
+    ]
+  },
+  "gallery": {
+    "images": [
+      {
+        "id": "g-1",
+        "src": "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&q=80",
+        "alt": "Circuit board close-up",
+        "caption": "PCB Assembly Session",
+        "span": "col-span-1 row-span-2"
+      },
+      {
+        "id": "g-2",
+        "src": "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=600&q=80",
+        "alt": "Robot arm in motion",
+        "caption": "Autonomous Arm Demo",
+        "span": "col-span-1 row-span-1"
+      },
+      {
+        "id": "g-3",
+        "src": "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=600&q=80",
+        "alt": "Electronics lab",
+        "caption": "Hardware Workshop",
+        "span": "col-span-1 row-span-1"
+      },
+      {
+        "id": "g-4",
+        "src": "https://images.unsplash.com/photo-1555255707-c07966088b7b?w=600&q=80",
+        "alt": "Team competition",
+        "caption": "State Olympiad 2026",
+        "span": "col-span-2 row-span-1"
+      },
+      {
+        "id": "g-5",
+        "src": "https://images.unsplash.com/photo-1573164713988-8665fc963095?w=600&q=80",
+        "alt": "Coding session",
+        "caption": "Software Sprint",
+        "span": "col-span-1 row-span-1"
+      },
+      {
+        "id": "g-6",
+        "src": "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=600&q=80",
+        "alt": "AI robot",
+        "caption": "AI Integration Lab",
+        "span": "col-span-1 row-span-1"
+      }
+    ],
+    "instagramHandle": "@geekspire.robotics"
+  },
+  "achievements": {
+    "achievements": []
+  },
+  "contact": {
+    "email": "simatsroboticsclub@gmail.com",
+    "location": "Robotics Lab, ECE Block, Ground floor",
+    "locationDetail": "Circular Building, SSE",
+    "meetingSchedule": "Every Saturday · 10:00 AM — 1:00 PM",
+    "socials": [
+      {
+        "label": "GitHub",
+        "handle": "@geekspire",
+        "href": "#"
+      },
+      {
+        "label": "Instagram",
+        "handle": "@geekspire.robotics",
+        "href": "#"
+      },
+      {
+        "label": "LinkedIn",
+        "handle": "Robotics Lab Club",
+        "href": "#"
+      }
+    ],
+    "formTitle": "JOIN APPLICATION",
+    "successMessage": "We'll get back to you within 48 hours. Welcome to the Robotics Lab Club family!"
+  }
+}
