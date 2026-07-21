@@ -10,7 +10,7 @@ export async function getSiteContent(): Promise<SiteContent> {
     try {
       const { getStore } = await import("@netlify/blobs")
       const store = getStore("site-content")
-      const data = await store.getJSON("content")
+      const data = await store.get("content", { type: "json" })
       if (data) {
         return data as SiteContent
       }
