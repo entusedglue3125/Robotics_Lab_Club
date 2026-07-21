@@ -1,5 +1,3 @@
-import { readFileSync } from "fs"
-import { join } from "path"
 import type { SiteContent } from "@/lib/content-types"
 import Navbar from "@/components/ui/navbar"
 import RainingLetters from "@/components/ui/modern-animated-hero-section"
@@ -10,19 +8,10 @@ import TeamsSection from "@/components/ui/teams-section"
 import GallerySection from "@/components/ui/gallery-section"
 import AchievementsSection from "@/components/ui/achievements-section"
 import ContactSection from "@/components/ui/contact-section"
+import { getSiteContent } from "@/lib/db"
 
-function getContent(): SiteContent {
-  try {
-    const raw = readFileSync(join(process.cwd(), "data", "content.json"), "utf-8")
-    return JSON.parse(raw) as SiteContent
-  } catch {
-    // fallback — re-export default data if file missing
-    return JSON.parse("{}") as SiteContent
-  }
-}
-
-export default function Home() {
-  const content = getContent()
+export default async function Home() {
+  const content = await getSiteContent()
 
   return (
     <>

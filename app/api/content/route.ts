@@ -1,25 +1,38 @@
 import { NextRequest, NextResponse } from "next/server"
-import { readFileSync, writeFileSync } from "fs"
-import { join } from "path"
+import { getSiteContent, setSiteContent } from "@/lib/db"
 
-const CONTENT_PATH = join(process.cwd(), "data", "content.json")
+function isAuthorized(req: NextRequest): boolean {
+  const password = req.headers.get("x-admin-password")
+  const expectedPassword = process.env.ADMIN_PASSWORD || "12345678"
+  return password === expectedPassword
+}
 
-export async function GET() {
+export async function GET(req: NextRequest) {
+  if (!isAuthorized(req)) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
+  }
+
   try {
-    const raw = readFileSync(CONTENT_PATH, "utf-8")
-    const data = JSON.parse(raw)
+    const data = await getSiteContent()
     return NextResponse.json(data)
-  } catch {
+  } catch (err) {
+    console.error("Failed to read content in API GET:", err)
     return NextResponse.json({ error: "Failed to read content" }, { status: 500 })
   }
 }
 
 export async function POST(req: NextRequest) {
+  if (!isAuthorized(req)) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
+  }
+
   try {
     const body = await req.json()
-    writeFileSync(CONTENT_PATH, JSON.stringify(body, null, 2), "utf-8")
+    await setSiteContent(body)
     return NextResponse.json({ success: true })
-  } catch {
+  } catch (err) {
+    console.error("Failed to write content in API POST:", err)
     return NextResponse.json({ error: "Failed to write content" }, { status: 500 })
   }
 }
+

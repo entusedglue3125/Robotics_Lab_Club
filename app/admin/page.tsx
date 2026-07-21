@@ -12,7 +12,6 @@ import AchievementsTab from "./tabs/achievements-tab"
 import ContactTab from "./tabs/contact-tab"
 
 const TABS = ["Hero","About","Stats","Events","Teams","Gallery","Achievements","Contact"]
-const PASSWORD = "ROBOTICSLAB2024"
 
 export default function AdminPage() {
   const [authed, setAuthed] = useState(false)
@@ -27,23 +26,54 @@ export default function AdminPage() {
   useEffect(() => {
     if (authed) {
       setLoading(true)
-      fetch("/api/content").then(r => r.json()).then(d => { setContent(d); setLoading(false) })
+      fetch("/api/content", {
+        headers: { "x-admin-password": pw }
+      })
+      .then(async (r) => {
+        if (!r.ok) {
+          throw new Error("Unauthorized")
+        }
+        const d = await r.json()
+        setContent(d)
+        setLoading(false)
+      })
+      .catch(() => {
+        setAuthed(false)
+        setPwErr(true)
+        setLoading(false)
+      })
     }
-  }, [authed])
+  }, [authed, pw])
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault()
-    if (pw === PASSWORD) { setAuthed(true); setPwErr(false) }
-    else setPwErr(true)
+    setAuthed(true)
+    setPwErr(false)
   }
 
   const save = async () => {
     if (!content) return
     setSaving(true)
-    await fetch("/api/content", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(content) })
-    setSaving(false)
-    setSaved(true)
-    setTimeout(() => setSaved(false), 2500)
+    try {
+      const res = await fetch("/api/content", { 
+        method: "POST", 
+        headers: { 
+          "Content-Type": "application/json",
+          "x-admin-password": pw
+        }, 
+        body: JSON.stringify(content) 
+      })
+      if (!res.ok) {
+        throw new Error("Unauthorized")
+      }
+      setSaved(true)
+      setTimeout(() => setSaved(false), 2500)
+    } catch {
+      alert("Failed to save changes. Your session may have expired or the password was incorrect.")
+      setAuthed(false)
+    } finally {
+      setSaving(false)
+    }
   }
 
   if (!authed) return (
