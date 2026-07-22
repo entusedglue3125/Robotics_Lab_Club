@@ -6,9 +6,6 @@ const UPLOAD_DIR = join(process.cwd(), "public", "uploads")
 
 export async function POST(req: NextRequest) {
   try {
-    // Ensure uploads directory exists
-    mkdirSync(UPLOAD_DIR, { recursive: true })
-
     const formData = await req.formData()
     const file = formData.get("file") as File | null
 
@@ -21,9 +18,9 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Only image files are allowed" }, { status: 400 })
     }
 
-    // Limit size to 5MB
-    if (file.size > 5 * 1024 * 1024) {
-      return NextResponse.json({ error: "File too large (max 5MB)" }, { status: 400 })
+    // Limit size to 10MB
+    if (file.size > 10 * 1024 * 1024) {
+      return NextResponse.json({ error: "File too large (max 10MB)" }, { status: 400 })
     }
 
     // Generate unique filename preserving extension
@@ -31,16 +28,46 @@ export async function POST(req: NextRequest) {
     const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, "_").replace(/\s+/g, "_")
     const timestamp = Date.now()
     const filename = `${timestamp}_${safeName}`
-    const filepath = join(UPLOAD_DIR, filename)
+    const arrayBuffer = await file.arrayBuffer()
 
-    // Write file
-    const buffer = Buffer.from(await file.arrayBuffer())
-    writeFileSync(filepath, buffer)
+    // 1. If running on Netlify runtime, store in Netlify Blobs
+    if (process.env.NETLIFY === "true") {
+      try {
+        const { getStore } = await import("@netlify/blobs")
+        const store = getStore("site-uploads")
+        await store.set(filename, arrayBuffer, {
+          metadata: { contentType: file.type }
+        })
+        const url = `/api/uploads/${filename}`
+        return NextResponse.json({ url, filename })
+      } catch (blobErr: unknown) {
+        console.error("Netlify Blobs upload error, falling back to base64 Data URL:", blobErr)
+        const base64 = Buffer.from(arrayBuffer).toString("base64")
+        const url = `data:${file.type || "image/jpeg"};base64,${base64}`
+        return NextResponse.json({ url, filename })
+      }
+    }
 
-    const url = `/uploads/${filename}`
-    return NextResponse.json({ url, filename })
-  } catch (err) {
+    // 2. Local development: save to public/uploads directory
+    try {
+      mkdirSync(UPLOAD_DIR, { recursive: true })
+      const filepath = join(UPLOAD_DIR, filename)
+      const buffer = Buffer.from(arrayBuffer)
+      writeFileSync(filepath, buffer)
+
+      const url = `/api/uploads/${filename}`
+      return NextResponse.json({ url, filename })
+    } catch (fsErr) {
+      console.error("Filesystem write error, falling back to base64 Data URL:", fsErr)
+      const base64 = Buffer.from(arrayBuffer).toString("base64")
+      const url = `data:${file.type || "image/jpeg"};base64,${base64}`
+      return NextResponse.json({ url, filename })
+    }
+  } catch (err: unknown) {
     console.error("Upload error:", err)
-    return NextResponse.json({ error: "Upload failed" }, { status: 500 })
+    const msg = err instanceof Error ? err.message : "Upload failed"
+    return NextResponse.json({ error: msg }, { status: 500 })
   }
 }
+
+

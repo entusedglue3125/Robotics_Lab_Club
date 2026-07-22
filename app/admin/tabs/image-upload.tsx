@@ -18,9 +18,18 @@ export default function ImageUpload({ value, onChange, label }: ImageUploadProps
   const [error, setError] = useState<string | null>(null)
   const [success, setSuccess] = useState(false)
 
+  const fileToDataUrl = (file: File): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader()
+      reader.onload = () => resolve(reader.result as string)
+      reader.onerror = reject
+      reader.readAsDataURL(file)
+    })
+  }
+
   const handleFile = async (file: File) => {
     if (!file.type.startsWith("image/")) { setError("Only images allowed"); return }
-    if (file.size > 5 * 1024 * 1024) { setError("Max file size is 5MB"); return }
+    if (file.size > 10 * 1024 * 1024) { setError("Max file size is 10MB"); return }
 
     setError(null)
     setUploading(true)
@@ -32,13 +41,25 @@ export default function ImageUpload({ value, onChange, label }: ImageUploadProps
       const res = await fetch("/api/upload", { method: "POST", body: fd })
       const data = await res.json()
 
-      if (!res.ok) throw new Error(data.error || "Upload failed")
-
-      onChange(data.url)
+      if (res.ok && data.url) {
+        onChange(data.url)
+      } else {
+        // Fall back to client-side Data URL conversion
+        const dataUrl = await fileToDataUrl(file)
+        onChange(dataUrl)
+      }
       setSuccess(true)
       setTimeout(() => setSuccess(false), 2500)
     } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : "Upload failed")
+      try {
+        // Fall back to client-side Data URL if network or server call threw an error
+        const dataUrl = await fileToDataUrl(file)
+        onChange(dataUrl)
+        setSuccess(true)
+        setTimeout(() => setSuccess(false), 2500)
+      } catch {
+        setError(err instanceof Error ? err.message : "Upload failed")
+      }
     } finally {
       setUploading(false)
     }
