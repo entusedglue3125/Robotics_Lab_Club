@@ -4,6 +4,7 @@ import type { SiteContent } from "./content-types"
 
 const CONTENT_PATH = join(process.cwd(), "data", "content.json")
 const TMP_CONTENT_PATH = "/tmp/content.json"
+const CLOUD_STORE_URL = "https://jsonblob.com/api/jsonBlob/019f8911-1498-7d39-ac28-00e66d1d57a4"
 
 declare global {
   // eslint-disable-next-line no-var
@@ -16,7 +17,7 @@ export async function getSiteContent(): Promise<SiteContent> {
     return globalThis._siteContentCache
   }
 
-  // 2. If in Netlify runtime, try Netlify Blobs
+  // 2. Try Netlify Blobs if in Netlify runtime
   if (process.env.NETLIFY === "true") {
     try {
       const { getStore } = await import("@netlify/blobs")
@@ -31,7 +32,24 @@ export async function getSiteContent(): Promise<SiteContent> {
     }
   }
 
-  // 3. Try reading from /tmp/content.json if written previously
+  // 3. Persistent Cloud Store (JSONBlob) - ensures data survives container recycles & cold starts
+  try {
+    const res = await fetch(CLOUD_STORE_URL, {
+      headers: { Accept: "application/json" },
+      cache: "no-store",
+    })
+    if (res.ok) {
+      const data = (await res.json()) as SiteContent
+      if (data && Object.keys(data).length > 0) {
+        globalThis._siteContentCache = data
+        return data
+      }
+    }
+  } catch (err) {
+    console.error("Error reading from Persistent Cloud Store:", err)
+  }
+
+  // 4. Check /tmp/content.json
   try {
     if (existsSync(TMP_CONTENT_PATH)) {
       const raw = readFileSync(TMP_CONTENT_PATH, "utf-8")
@@ -40,10 +58,10 @@ export async function getSiteContent(): Promise<SiteContent> {
       return parsed
     }
   } catch (err) {
-    console.error("Error reading from /tmp/content.json:", err)
+    console.error("Error reading /tmp/content.json:", err)
   }
 
-  // 4. Local development / default seed file data/content.json
+  // 5. Default fallback: data/content.json
   try {
     const raw = readFileSync(CONTENT_PATH, "utf-8")
     const parsed = JSON.parse(raw) as SiteContent
@@ -56,36 +74,43 @@ export async function getSiteContent(): Promise<SiteContent> {
 }
 
 export async function setSiteContent(data: SiteContent): Promise<void> {
-  // Always update in-memory cache immediately
+  // Update in-memory cache immediately
   globalThis._siteContentCache = data
 
-  // 1. If in Netlify runtime, attempt writing to Netlify Blobs
+  // 1. Sync to Persistent Cloud Store (JSONBlob)
+  try {
+    await fetch(CLOUD_STORE_URL, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+      cache: "no-store",
+    })
+  } catch (err) {
+    console.error("Error updating Persistent Cloud Store:", err)
+  }
+
+  // 2. Try Netlify Blobs if in Netlify runtime
   if (process.env.NETLIFY === "true") {
     try {
       const { getStore } = await import("@netlify/blobs")
       const store = getStore("site-content")
       await store.setJSON("content", data)
-      return
     } catch (err) {
-      console.error("Error writing to Netlify Blobs, falling back to /tmp:", err)
-      try {
-        writeFileSync(TMP_CONTENT_PATH, JSON.stringify(data, null, 2), "utf-8")
-      } catch (tmpErr) {
-        console.error("Error writing to /tmp/content.json:", tmpErr)
-      }
-      return
+      console.error("Error writing to Netlify Blobs:", err)
     }
   }
 
-  // 2. Local development
+  // 3. Save to local /tmp directory as backup
+  try {
+    writeFileSync(TMP_CONTENT_PATH, JSON.stringify(data, null, 2), "utf-8")
+  } catch {
+    // Ignore read-only filesystem errors
+  }
+
+  // 4. Save to local file if writable (local dev)
   try {
     writeFileSync(CONTENT_PATH, JSON.stringify(data, null, 2), "utf-8")
-  } catch (err) {
-    console.error("Error writing local content file, writing to /tmp:", err)
-    try {
-      writeFileSync(TMP_CONTENT_PATH, JSON.stringify(data, null, 2), "utf-8")
-    } catch (tmpErr) {
-      console.error("Error writing /tmp fallback file:", tmpErr)
-    }
+  } catch {
+    // Ignore read-only filesystem errors
   }
 }
