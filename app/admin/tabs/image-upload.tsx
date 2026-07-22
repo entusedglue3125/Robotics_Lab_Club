@@ -18,11 +18,47 @@ export default function ImageUpload({ value, onChange, label }: ImageUploadProps
   const [error, setError] = useState<string | null>(null)
   const [success, setSuccess] = useState(false)
 
-  const fileToDataUrl = (file: File): Promise<string> => {
-    return new Promise((resolve, reject) => {
+  const compressImage = (file: File, maxDim = 1400, quality = 0.82): Promise<string> => {
+    return new Promise((resolve) => {
       const reader = new FileReader()
-      reader.onload = () => resolve(reader.result as string)
-      reader.onerror = reject
+      reader.onload = (e) => {
+        const img = new Image()
+        img.onload = () => {
+          let width = img.width
+          let height = img.height
+
+          if (width > maxDim || height > maxDim) {
+            if (width > height) {
+              height = Math.round((height * maxDim) / width)
+              width = maxDim
+            } else {
+              width = Math.round((width * maxDim) / height)
+              height = maxDim
+            }
+          }
+
+          const canvas = document.createElement("canvas")
+          canvas.width = width
+          canvas.height = height
+          const ctx = canvas.getContext("2d")
+          if (!ctx) {
+            resolve(e.target?.result as string)
+            return
+          }
+
+          ctx.drawImage(img, 0, 0, width, height)
+          const mime = file.type === "image/png" ? "image/png" : "image/jpeg"
+          const compressed = canvas.toDataURL(mime, quality)
+          resolve(compressed)
+        }
+        img.onerror = () => resolve(e.target?.result as string)
+        img.src = e.target?.result as string
+      }
+      reader.onerror = () => {
+        const fallbackReader = new FileReader()
+        fallbackReader.onload = () => resolve(fallbackReader.result as string)
+        fallbackReader.readAsDataURL(file)
+      }
       reader.readAsDataURL(file)
     })
   }
@@ -36,6 +72,7 @@ export default function ImageUpload({ value, onChange, label }: ImageUploadProps
     setSuccess(false)
 
     try {
+      // 1. Try uploading to /api/upload endpoint
       const fd = new FormData()
       fd.append("file", file)
       const res = await fetch("/api/upload", { method: "POST", body: fd })
@@ -44,20 +81,20 @@ export default function ImageUpload({ value, onChange, label }: ImageUploadProps
       if (res.ok && data.url) {
         onChange(data.url)
       } else {
-        // Fall back to client-side Data URL conversion
-        const dataUrl = await fileToDataUrl(file)
+        // Fall back to compressed Data URL
+        const dataUrl = await compressImage(file)
         onChange(dataUrl)
       }
       setSuccess(true)
       setTimeout(() => setSuccess(false), 2500)
-    } catch (err: unknown) {
+    } catch {
       try {
-        // Fall back to client-side Data URL if network or server call threw an error
-        const dataUrl = await fileToDataUrl(file)
+        // Fall back to compressed Data URL if server upload fails
+        const dataUrl = await compressImage(file)
         onChange(dataUrl)
         setSuccess(true)
         setTimeout(() => setSuccess(false), 2500)
-      } catch {
+      } catch (err: unknown) {
         setError(err instanceof Error ? err.message : "Upload failed")
       }
     } finally {

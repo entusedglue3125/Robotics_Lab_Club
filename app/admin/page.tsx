@@ -64,13 +64,22 @@ export default function AdminPage() {
         body: JSON.stringify(content) 
       })
       if (!res.ok) {
-        throw new Error("Unauthorized")
+        let errorMsg = "Failed to save changes."
+        try {
+          const errData = await res.json()
+          if (errData.error) errorMsg = errData.error
+        } catch {}
+        if (res.status === 401) {
+          errorMsg = "Your session expired or password was incorrect."
+          setAuthed(false)
+        }
+        alert(errorMsg)
+        return
       }
       setSaved(true)
       setTimeout(() => setSaved(false), 2500)
-    } catch {
-      alert("Failed to save changes. Your session may have expired or the password was incorrect.")
-      setAuthed(false)
+    } catch (err: unknown) {
+      alert("Failed to save changes: " + (err instanceof Error ? err.message : String(err)))
     } finally {
       setSaving(false)
     }
