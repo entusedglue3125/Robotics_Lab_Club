@@ -10,6 +10,9 @@ import AchievementsSection from "@/components/ui/achievements-section"
 import ContactSection from "@/components/ui/contact-section"
 import { getSiteContent } from "@/lib/db"
 
+export const dynamic = "force-dynamic"
+export const revalidate = 0
+
 export default async function Home() {
   const content = await getSiteContent()
 
