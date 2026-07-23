@@ -4,7 +4,11 @@ import type { SiteContent } from "./content-types"
 
 const CONTENT_PATH = join(process.cwd(), "data", "content.json")
 const TMP_CONTENT_PATH = "/tmp/content.json"
-const CLOUD_STORE_URL = "https://jsonblob.com/api/jsonBlob/019f8911-1498-7d39-ac28-00e66d1d57a4"
+
+const GITHUB_TOKEN = process.env.GITHUB_TOKEN || ""
+const GITHUB_OWNER = process.env.GITHUB_OWNER || "entusedglue3125"
+const GITHUB_REPO = process.env.GITHUB_REPO || "Robotics_Lab_Club"
+const GITHUB_CONTENT_FILE = process.env.GITHUB_CONTENT_FILE || "data/content.json"
 
 declare global {
   // eslint-disable-next-line no-var
@@ -17,39 +21,7 @@ export async function getSiteContent(): Promise<SiteContent> {
     return globalThis._siteContentCache
   }
 
-  // 2. Try Netlify Blobs if in Netlify runtime
-  if (process.env.NETLIFY === "true") {
-    try {
-      const { getStore } = await import("@netlify/blobs")
-      const store = getStore("site-content")
-      const data = await store.get("content", { type: "json" })
-      if (data) {
-        globalThis._siteContentCache = data as SiteContent
-        return globalThis._siteContentCache
-      }
-    } catch (err) {
-      console.error("Error reading from Netlify Blobs:", err)
-    }
-  }
-
-  // 3. Persistent Cloud Store (JSONBlob) - ensures data survives container recycles & cold starts
-  try {
-    const res = await fetch(CLOUD_STORE_URL, {
-      headers: { Accept: "application/json" },
-      cache: "no-store",
-    })
-    if (res.ok) {
-      const data = (await res.json()) as SiteContent
-      if (data && Object.keys(data).length > 0) {
-        globalThis._siteContentCache = data
-        return data
-      }
-    }
-  } catch (err) {
-    console.error("Error reading from Persistent Cloud Store:", err)
-  }
-
-  // 4. Check /tmp/content.json
+  // 2. Check /tmp/content.json if written previously during runtime
   try {
     if (existsSync(TMP_CONTENT_PATH)) {
       const raw = readFileSync(TMP_CONTENT_PATH, "utf-8")
@@ -61,7 +33,7 @@ export async function getSiteContent(): Promise<SiteContent> {
     console.error("Error reading /tmp/content.json:", err)
   }
 
-  // 5. Default fallback: data/content.json
+  // 3. Read local data/content.json
   try {
     const raw = readFileSync(CONTENT_PATH, "utf-8")
     const parsed = JSON.parse(raw) as SiteContent
@@ -77,40 +49,64 @@ export async function setSiteContent(data: SiteContent): Promise<void> {
   // Update in-memory cache immediately
   globalThis._siteContentCache = data
 
-  // 1. Sync to Persistent Cloud Store (JSONBlob)
-  try {
-    await fetch(CLOUD_STORE_URL, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
-      cache: "no-store",
-    })
-  } catch (err) {
-    console.error("Error updating Persistent Cloud Store:", err)
-  }
-
-  // 2. Try Netlify Blobs if in Netlify runtime
-  if (process.env.NETLIFY === "true") {
-    try {
-      const { getStore } = await import("@netlify/blobs")
-      const store = getStore("site-content")
-      await store.setJSON("content", data)
-    } catch (err) {
-      console.error("Error writing to Netlify Blobs:", err)
-    }
-  }
-
-  // 3. Save to local /tmp directory as backup
+  // 1. Write to /tmp/content.json (fast local fallback)
   try {
     writeFileSync(TMP_CONTENT_PATH, JSON.stringify(data, null, 2), "utf-8")
   } catch {
     // Ignore read-only filesystem errors
   }
 
-  // 4. Save to local file if writable (local dev)
+  // 2. Write to local data/content.json if filesystem is writable
   try {
     writeFileSync(CONTENT_PATH, JSON.stringify(data, null, 2), "utf-8")
   } catch {
     // Ignore read-only filesystem errors
+  }
+
+  // 3. Commit updated content directly to GitHub Repository
+  // This triggers Netlify auto-rebuild and permanently bakes the changes into git!
+  if (GITHUB_TOKEN) {
+    try {
+      const getUrl = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${GITHUB_CONTENT_FILE}`
+      const getRes = await fetch(getUrl, {
+        headers: {
+          Authorization: `Bearer ${GITHUB_TOKEN}`,
+          Accept: "application/vnd.github.v3+json",
+        },
+        cache: "no-store",
+      })
+
+      if (getRes.ok) {
+        const fileMetaData = await getRes.json()
+        const sha = fileMetaData.sha
+        const jsonString = JSON.stringify(data, null, 2)
+        const base64Content = Buffer.from(jsonString).toString("base64")
+
+        const putRes = await fetch(getUrl, {
+          method: "PUT",
+          headers: {
+            Authorization: `Bearer ${GITHUB_TOKEN}`,
+            Accept: "application/vnd.github.v3+json",
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            message: "CMS Admin: Update website content & images",
+            content: base64Content,
+            sha: sha,
+          }),
+        })
+
+        if (!putRes.ok) {
+          const errText = await putRes.text()
+          console.error("GitHub API commit error:", putRes.status, errText)
+        } else {
+          console.log("Successfully committed content update to GitHub repository!")
+        }
+      } else {
+        console.error("Failed to fetch content.json SHA from GitHub:", getRes.status)
+      }
+    } catch (err) {
+      console.error("Error committing content to GitHub:", err)
+    }
   }
 }
