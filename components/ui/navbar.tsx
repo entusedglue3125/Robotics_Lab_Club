@@ -46,10 +46,12 @@ export default function Navbar() {
         {/* CTA */}
         <div className="hidden md:flex items-center gap-3">
           <a
-            href="#contact"
+            href="https://robotics-lab-club-peela-2.netlify.app/"
+            target="_blank"
+            rel="noopener noreferrer"
             className="btn-matrix px-4 py-2 text-xs font-mono tracking-widest rounded-sm"
           >
-            <span>JOIN CLUB</span>
+            <span>JOIN CLUB ↗</span>
           </a>
         </div>
 
@@ -82,11 +84,13 @@ export default function Navbar() {
             </a>
           ))}
           <a
-            href="#contact"
+            href="https://robotics-lab-club-peela-2.netlify.app/"
+            target="_blank"
+            rel="noopener noreferrer"
             onClick={() => setMenuOpen(false)}
             className="btn-matrix px-4 py-2 text-xs font-mono tracking-widest text-center rounded-sm mt-2"
           >
-            <span>JOIN CLUB</span>
+            <span>JOIN CLUB ↗</span>
           </a>
         </div>
       </div>

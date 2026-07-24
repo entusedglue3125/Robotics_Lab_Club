@@ -99,62 +99,24 @@ export default function ContactSection({ data }: { data?: ContactContent }) {
             </div>
           </div>
 
-          <div className="glass-card rounded-sm p-6">
-            {submitted ? (
-              <div className="flex flex-col items-center justify-center h-full min-h-[300px] text-center">
-                <CheckCircle size={48} className="text-green-400 mb-4 glow-green-sm" />
-                <h3 className="font-mono font-bold text-white text-lg mb-2">APPLICATION RECEIVED</h3>
-                <p className="text-slate-500 text-xs font-mono">{d.successMessage}</p>
-                <div className="mt-6 w-full h-px bg-gradient-to-r from-transparent via-green-500/30 to-transparent" />
-                <p className="text-green-400/50 text-xs font-mono mt-4 tracking-widest animate-pulse">TRANSMISSION COMPLETE</p>
-              </div>
-            ) : (
-              <form onSubmit={handleSubmit} className="space-y-4">
-                <h3 className="font-mono font-bold text-white text-sm mb-5 flex items-center gap-2">
-                  <Send size={14} className="text-green-400" /> {d.formTitle}
-                </h3>
-                <div>
-                  <label className="text-xs font-mono text-slate-600 tracking-wider mb-1.5 block">FULL NAME *</label>
-                  <input id="contact-name" type="text" required value={form.name} onChange={e => setForm({ ...form, name: e.target.value })}
-                    className="w-full bg-black/50 border border-green-500/20 focus:border-green-500/60 rounded-sm px-3 py-2.5 text-sm font-mono text-white outline-none transition-colors placeholder:text-slate-700"
-                    placeholder="Your Name" />
-                </div>
-                <div>
-                  <label className="text-xs font-mono text-slate-600 tracking-wider mb-1.5 block">EMAIL ADDRESS *</label>
-                  <input id="contact-email" type="email" required value={form.email} onChange={e => setForm({ ...form, email: e.target.value })}
-                    className="w-full bg-black/50 border border-green-500/20 focus:border-green-500/60 rounded-sm px-3 py-2.5 text-sm font-mono text-white outline-none transition-colors placeholder:text-slate-700"
-                    placeholder="you@college.edu" />
-                </div>
-                <div>
-                  <label className="text-xs font-mono text-slate-600 tracking-wider mb-1.5 block">INTERESTED ROLE</label>
-                  <select id="contact-role" value={form.role} onChange={e => setForm({ ...form, role: e.target.value })}
-                    className="w-full bg-black/50 border border-green-500/20 focus:border-green-500/60 rounded-sm px-3 py-2.5 text-sm font-mono text-white outline-none transition-colors">
-                    <option value="" className="bg-black">Select a domain...</option>
-                    <option value="hardware" className="bg-black">Hardware / Electronics</option>
-                    <option value="software" className="bg-black">Software / ROS</option>
-                    <option value="ai" className="bg-black">AI / Machine Learning</option>
-                    <option value="mechanical" className="bg-black">Mechanical Design</option>
-                    <option value="management" className="bg-black">Club Management</option>
-                  </select>
-                </div>
-                <div>
-                  <label className="text-xs font-mono text-slate-600 tracking-wider mb-1.5 block">WHY DO YOU WANT TO JOIN?</label>
-                  <textarea id="contact-message" rows={4} value={form.message} onChange={e => setForm({ ...form, message: e.target.value })}
-                    className="w-full bg-black/50 border border-green-500/20 focus:border-green-500/60 rounded-sm px-3 py-2.5 text-sm font-mono text-white outline-none transition-colors resize-none placeholder:text-slate-700"
-                    placeholder="Tell us about your experience and what you want to build..." />
-                </div>
-                <button id="contact-submit" type="submit" disabled={loading}
-                  className="w-full btn-matrix py-3 text-sm font-mono tracking-widest rounded-sm disabled:opacity-50">
-                  <span className="flex items-center justify-center gap-2">
-                    {loading ? (
-                      <><div className="w-4 h-4 border border-current border-t-transparent rounded-full animate-spin" />TRANSMITTING...</>
-                    ) : (
-                      <><Send size={14} />SUBMIT APPLICATION</>
-                    )}
-                  </span>
-                </button>
-              </form>
-            )}
+          <div className="glass-card rounded-sm p-8 flex flex-col justify-center items-center text-center space-y-6">
+            <div className="w-16 h-16 rounded-full bg-green-500/10 border border-green-500/30 flex items-center justify-center text-green-400 mb-2 glow-box">
+              <Send size={28} />
+            </div>
+            <h3 className="font-mono font-bold text-white text-xl tracking-wider">
+              {d.formTitle || "JOIN APPLICATION"}
+            </h3>
+            <p className="text-slate-400 text-xs font-mono max-w-sm leading-relaxed">
+              Ready to engineer the future with us? Click below to open the official Robotics Lab Club application portal and submit your application.
+            </p>
+            <a
+              href="https://robotics-lab-club-peela-2.netlify.app/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full btn-matrix py-4 text-sm font-mono tracking-widest rounded-sm inline-flex items-center justify-center gap-2 group"
+            >
+              <span>JOIN APPLICATION ↗</span>
+            </a>
           </div>
         </div>
 

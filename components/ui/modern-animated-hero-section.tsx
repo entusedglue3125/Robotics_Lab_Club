@@ -188,8 +188,13 @@ const RainingLetters: React.FC<Props> = ({ data }) => {
           <a href="#about" className="btn-matrix px-5 py-2.5 text-xs font-mono tracking-wider rounded-sm">
             <span>{d.ctaPrimary}</span>
           </a>
-          <a href="#contact" className="px-5 py-2.5 text-xs font-mono tracking-wider text-white border border-white/10 hover:border-white/40 transition-colors rounded-sm bg-black/30 backdrop-blur-sm">
-            {d.ctaSecondary}
+          <a
+            href="https://robotics-lab-club-peela-2.netlify.app/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="px-5 py-2.5 text-xs font-mono tracking-wider text-white border border-white/10 hover:border-white/40 transition-colors rounded-sm bg-black/30 backdrop-blur-sm"
+          >
+            {d.ctaSecondary} ↗
           </a>
         </div>
       </div>

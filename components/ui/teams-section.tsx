@@ -66,8 +66,13 @@ export default function TeamsSection({ data }: { data?: TeamsContent }) {
 
         <div className="text-center mt-8">
           <p className="text-slate-500 text-xs font-mono mb-4">Want to see your name here?</p>
-          <a href="#contact" className="btn-matrix px-8 py-3 text-xs font-mono tracking-widest rounded-sm inline-block">
-            <span>APPLY TO JOIN</span>
+          <a
+            href="https://robotics-lab-club-peela-2.netlify.app/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn-matrix px-8 py-3 text-xs font-mono tracking-widest rounded-sm inline-block"
+          >
+            <span>APPLY TO JOIN ↗</span>
           </a>
         </div>
       </div>
