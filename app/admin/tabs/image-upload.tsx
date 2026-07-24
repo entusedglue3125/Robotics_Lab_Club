@@ -164,7 +164,7 @@ export default function ImageUpload({ value, onChange, label }: ImageUploadProps
           <img
             src={value}
             alt="Preview"
-            className="h-24 w-full object-cover rounded-sm border border-green-500/20 grayscale group-hover:grayscale-0 transition-all"
+            className="h-24 w-full object-cover rounded-sm border border-green-500/20 transition-all"
             onError={e => { (e.target as HTMLImageElement).style.display = "none" }}
           />
           <button

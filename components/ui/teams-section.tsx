@@ -37,7 +37,7 @@ export default function TeamsSection({ data }: { data?: TeamsContent }) {
                 <div key={member.id} className="glass-card rounded-sm p-5 flex items-start gap-4 group">
                   <div className="relative shrink-0">
                     <div className="w-16 h-16 rounded-sm overflow-hidden border border-green-500/30 group-hover:border-green-500/70 transition-colors">
-                      <img src={member.image} alt={member.name} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" />
+                      <img src={member.image} alt={member.name} className="w-full h-full object-cover transition-all duration-500" />
                     </div>
                     <div className="absolute -bottom-1 -right-1 w-3 h-3 bg-green-500 rounded-full border-2 border-black animate-pulse" />
                   </div>

@@ -24,7 +24,7 @@ export default function GallerySection({ data }: { data?: GalleryContent }) {
           <div className="grid grid-cols-2 md:grid-cols-3 gap-3 auto-rows-[200px]">
             {d.images.map((img) => (
               <div key={img.id} className={`${img.span} relative overflow-hidden rounded-sm group cursor-pointer`}>
-                <img src={img.src} alt={img.alt} className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700" />
+                <img src={img.src} alt={img.alt} className="w-full h-full object-cover group-hover:scale-105 transition-all duration-700" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-60 group-hover:opacity-80 transition-opacity" />
                 <div className="absolute inset-0 border border-transparent group-hover:border-green-500/50 transition-all duration-300 rounded-sm" />
                 <div className="absolute bottom-0 left-0 right-0 p-3 translate-y-full group-hover:translate-y-0 transition-transform duration-300">

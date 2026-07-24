@@ -39,8 +39,8 @@ export default function EventsSection({ data }: { data?: EventsContent }) {
                 return (
                   <div key={event.id} className={`glass-card rounded-sm overflow-hidden group cursor-pointer ${colors.glow}`}>
                     <div className="relative h-40 overflow-hidden">
-                      <img src={event.image} alt={event.title} className="w-full h-full object-cover opacity-60 group-hover:opacity-80 group-hover:scale-105 transition-all duration-500" />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
+                      <img src={event.image} alt={event.title} className="w-full h-full object-cover group-hover:scale-105 transition-all duration-500" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent opacity-60" />
                       <div className="absolute top-3 right-3">
                         <span className={`text-xs font-mono px-2 py-1 border rounded-sm ${colors.badge}`}>{event.type}</span>
                       </div>
@@ -75,13 +75,13 @@ export default function EventsSection({ data }: { data?: EventsContent }) {
               <div className="w-2 h-2 rounded-full bg-slate-600" />
               <h3 className="font-mono text-sm text-slate-500 tracking-widest uppercase">Past Events</h3>
             </div>
-            <div className="grid md:grid-cols-2 gap-5 opacity-70">
+            <div className="grid md:grid-cols-2 gap-5">
               {past.map((event) => {
                 const colors = colorMap[event.color]
                 return (
                   <div key={event.id} className="glass-card rounded-sm overflow-hidden group cursor-pointer">
                     <div className="relative h-32 overflow-hidden">
-                      <img src={event.image} alt={event.title} className="w-full h-full object-cover opacity-40 grayscale" />
+                      <img src={event.image} alt={event.title} className="w-full h-full object-cover" />
                       <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent" />
                       <div className="absolute top-3 right-3">
                         <span className={`text-xs font-mono px-2 py-1 border rounded-sm ${colors.badge}`}>{event.type}</span>
