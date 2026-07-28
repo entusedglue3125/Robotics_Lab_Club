@@ -52,14 +52,14 @@ function stripBase64Images(obj: unknown): unknown {
 function migrateLegacyFields(data: SiteContent): SiteContent {
   if (data.gallery?.images) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    data.gallery.images = (data.gallery.images as any[]).map((img: Record<string, unknown>) => {
-      const legacyUrl = img.url as string | undefined
-      const currentSrc = img.src as string | undefined
-      if (legacyUrl && !currentSrc) {
-        return { ...img, src: legacyUrl, url: undefined }
+    const migrated = (data.gallery.images as any[]).map((img: any) => {
+      if (img.url && !img.src) {
+        return { ...img, src: img.url as string, url: undefined }
       }
       return img
     })
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    data.gallery.images = migrated as any
   }
   return data
 }
