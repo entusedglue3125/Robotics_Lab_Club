@@ -38,14 +38,14 @@ export default function EventsSection({ data }: { data?: EventsContent }) {
                 const colors = colorMap[event.color]
                 return (
                   <div key={event.id} className={`glass-card rounded-sm overflow-hidden group cursor-pointer ${colors.glow}`}>
-                    <div className="relative h-40 overflow-hidden">
-                      <img src={event.image} alt={event.title} className="w-full h-full object-cover group-hover:scale-105 transition-all duration-500" />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent opacity-60" />
-                      <div className="absolute top-3 right-3">
-                        <span className={`text-xs font-mono px-2 py-1 border rounded-sm ${colors.badge}`}>{event.type}</span>
+                    <div className="relative h-72 sm:h-80 md:h-96 bg-black/60 overflow-hidden flex items-center justify-center">
+                      <img src={event.image} alt={event.title} className="w-full h-full object-contain group-hover:scale-105 transition-all duration-500" />
+                      <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-black to-transparent pointer-events-none" />
+                      <div className="absolute top-3 right-3 z-10">
+                        <span className={`text-xs font-mono px-2.5 py-1 border rounded-sm ${colors.badge}`}>{event.type}</span>
                       </div>
-                      <div className="absolute top-3 left-3">
-                        <span className="text-xs font-mono px-2 py-1 bg-green-500 text-black font-bold rounded-sm">UPCOMING</span>
+                      <div className="absolute top-3 left-3 z-10">
+                        <span className="text-xs font-mono px-2.5 py-1 bg-green-500 text-black font-bold rounded-sm">UPCOMING</span>
                       </div>
                     </div>
                     <div className="p-5">
@@ -80,14 +80,14 @@ export default function EventsSection({ data }: { data?: EventsContent }) {
                 const colors = colorMap[event.color]
                 return (
                   <div key={event.id} className="glass-card rounded-sm overflow-hidden group cursor-pointer">
-                    <div className="relative h-32 overflow-hidden">
-                      <img src={event.image} alt={event.title} className="w-full h-full object-cover" />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent" />
-                      <div className="absolute top-3 right-3">
-                        <span className={`text-xs font-mono px-2 py-1 border rounded-sm ${colors.badge}`}>{event.type}</span>
+                    <div className="relative h-64 sm:h-72 bg-black/60 overflow-hidden flex items-center justify-center">
+                      <img src={event.image} alt={event.title} className="w-full h-full object-contain" />
+                      <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-black to-transparent pointer-events-none" />
+                      <div className="absolute top-3 right-3 z-10">
+                        <span className={`text-xs font-mono px-2.5 py-1 border rounded-sm ${colors.badge}`}>{event.type}</span>
                       </div>
-                      <div className="absolute top-3 left-3">
-                        <span className="text-xs font-mono px-2 py-1 bg-slate-700 text-slate-400 rounded-sm">COMPLETED</span>
+                      <div className="absolute top-3 left-3 z-10">
+                        <span className="text-xs font-mono px-2.5 py-1 bg-slate-700 text-slate-400 rounded-sm">COMPLETED</span>
                       </div>
                     </div>
                     <div className="p-5">
