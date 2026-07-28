@@ -167,6 +167,36 @@
         "icon": "Trophy",
         "color": "green",
         "highlight": true
+      },
+      {
+        "id": "a-1785208591020",
+        "year": "2026",
+        "title": "2nd place M Kumaraswamy College of engineering",
+        "subtitle": "Position / Award",
+        "description": "21st February, Hackathon conducted by M Kumaraswamy College of engineering,2nd Prize",
+        "icon": "Trophy",
+        "color": "green",
+        "highlight": false
+      },
+      {
+        "id": "a-1785208756447",
+        "year": "2026",
+        "title": "2nd Place at JJ Engineering College",
+        "subtitle": "Position / Award",
+        "description": "1-2 April , Hackathon conducted by JJ Engineering College 2nd Prize",
+        "icon": "Trophy",
+        "color": "green",
+        "highlight": false
+      },
+      {
+        "id": "a-1785208820708",
+        "year": "2026",
+        "title": "2nd Place at Hackathon conducted by Pixor Robotics",
+        "subtitle": "Position / Award",
+        "description": "July 5, Hackathon conducted by Pixor robotics at dindigul , we won 2nd place",
+        "icon": "Trophy",
+        "color": "green",
+        "highlight": false
       }
     ]
   },
