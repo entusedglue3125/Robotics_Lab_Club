@@ -15,6 +15,28 @@ declare global {
   var _siteContentCache: SiteContent | undefined
 }
 
+/**
+ * Recursively strip base64 data: URLs from any object.
+ * Replaces them with empty string to prevent bloating content.json.
+ * Images should be uploaded separately via /api/upload which stores them on GitHub.
+ */
+function stripBase64Images(obj: unknown): unknown {
+  if (typeof obj === "string") {
+    return obj.startsWith("data:image") ? "" : obj
+  }
+  if (Array.isArray(obj)) {
+    return obj.map(stripBase64Images)
+  }
+  if (obj !== null && typeof obj === "object") {
+    const result: Record<string, unknown> = {}
+    for (const [key, value] of Object.entries(obj as Record<string, unknown>)) {
+      result[key] = stripBase64Images(value)
+    }
+    return result
+  }
+  return obj
+}
+
 export async function getSiteContent(): Promise<SiteContent> {
   // 1. Check in-memory cache
   if (globalThis._siteContentCache) {
@@ -46,25 +68,27 @@ export async function getSiteContent(): Promise<SiteContent> {
 }
 
 export async function setSiteContent(data: SiteContent): Promise<void> {
+  // Strip any base64 images before saving — they must go through /api/upload instead
+  const cleanData = stripBase64Images(data) as SiteContent
+
   // Update in-memory cache immediately
-  globalThis._siteContentCache = data
+  globalThis._siteContentCache = cleanData
 
   // 1. Write to /tmp/content.json (fast local fallback)
   try {
-    writeFileSync(TMP_CONTENT_PATH, JSON.stringify(data, null, 2), "utf-8")
+    writeFileSync(TMP_CONTENT_PATH, JSON.stringify(cleanData, null, 2), "utf-8")
   } catch {
     // Ignore read-only filesystem errors
   }
 
   // 2. Write to local data/content.json if filesystem is writable
   try {
-    writeFileSync(CONTENT_PATH, JSON.stringify(data, null, 2), "utf-8")
+    writeFileSync(CONTENT_PATH, JSON.stringify(cleanData, null, 2), "utf-8")
   } catch {
     // Ignore read-only filesystem errors
   }
 
   // 3. Commit updated content directly to GitHub Repository
-  // This triggers Netlify auto-rebuild and permanently bakes the changes into git!
   if (GITHUB_TOKEN) {
     try {
       const getUrl = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${GITHUB_CONTENT_FILE}`
@@ -79,7 +103,7 @@ export async function setSiteContent(data: SiteContent): Promise<void> {
       if (getRes.ok) {
         const fileMetaData = await getRes.json()
         const sha = fileMetaData.sha
-        const jsonString = JSON.stringify(data, null, 2)
+        const jsonString = JSON.stringify(cleanData, null, 2)
         const base64Content = Buffer.from(jsonString).toString("base64")
 
         const putRes = await fetch(getUrl, {
@@ -90,7 +114,7 @@ export async function setSiteContent(data: SiteContent): Promise<void> {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            message: "CMS Admin: Update website content & images",
+            message: "CMS Admin: Update website content",
             content: base64Content,
             sha: sha,
           }),
@@ -99,14 +123,17 @@ export async function setSiteContent(data: SiteContent): Promise<void> {
         if (!putRes.ok) {
           const errText = await putRes.text()
           console.error("GitHub API commit error:", putRes.status, errText)
+          throw new Error(`GitHub commit failed: ${putRes.status}`)
         } else {
           console.log("Successfully committed content update to GitHub repository!")
         }
       } else {
         console.error("Failed to fetch content.json SHA from GitHub:", getRes.status)
+        throw new Error(`GitHub SHA fetch failed: ${getRes.status}`)
       }
     } catch (err) {
       console.error("Error committing content to GitHub:", err)
+      throw err
     }
   }
 }
