@@ -20,9 +20,9 @@ export default function GallerySection({ data }: { data?: GalleryContent }) {
           <p className="text-slate-500 text-sm font-mono mt-6">A glimpse into our sessions, competitions, and builds.</p>
         </div>
 
-        {d.images.length > 0 ? (
+        {d.images.filter(img => img.src).length > 0 ? (
           <div className="grid grid-cols-2 md:grid-cols-3 gap-3 auto-rows-[200px]">
-            {d.images.map((img) => (
+            {d.images.filter(img => img.src).map((img) => (
               <div key={img.id} className={`${img.span} relative overflow-hidden rounded-sm group cursor-pointer`}>
                 <img src={img.src} alt={img.alt} className="w-full h-full object-cover group-hover:scale-105 transition-all duration-700" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-60 group-hover:opacity-80 transition-opacity" />
@@ -36,7 +36,9 @@ export default function GallerySection({ data }: { data?: GalleryContent }) {
             ))}
           </div>
         ) : (
-          <p className="text-center text-slate-600 font-mono text-sm">No gallery images added yet.</p>
+          <p className="text-center text-slate-600 font-mono text-sm py-12">
+            No gallery images yet — upload your lab photos via the Admin panel.
+          </p>
         )}
 
         <p className="text-center text-slate-700 text-xs font-mono mt-6 tracking-wider">

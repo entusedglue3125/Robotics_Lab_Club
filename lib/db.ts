@@ -37,6 +37,26 @@ function stripBase64Images(obj: unknown): unknown {
   return obj
 }
 
+/**
+ * Migrate legacy field names from older admin versions.
+ * e.g. gallery images used `url` instead of `src` in older code.
+ */
+function migrateLegacyFields(data: SiteContent): SiteContent {
+  if (data.gallery?.images) {
+    data.gallery.images = data.gallery.images.map((img: Record<string, unknown>) => {
+      // Migrate `url` -> `src` if src is empty/missing
+      const legacyUrl = img.url as string | undefined
+      const currentSrc = img.src as string | undefined
+      if (legacyUrl && !currentSrc) {
+        return { ...img, src: legacyUrl, url: undefined }
+      }
+      return img
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    }) as any
+  }
+  return data
+}
+
 export async function getSiteContent(): Promise<SiteContent> {
   // 1. Check in-memory cache
   if (globalThis._siteContentCache) {
@@ -47,7 +67,7 @@ export async function getSiteContent(): Promise<SiteContent> {
   try {
     if (existsSync(TMP_CONTENT_PATH)) {
       const raw = readFileSync(TMP_CONTENT_PATH, "utf-8")
-      const parsed = JSON.parse(raw) as SiteContent
+      const parsed = migrateLegacyFields(JSON.parse(raw) as SiteContent)
       globalThis._siteContentCache = parsed
       return parsed
     }
@@ -58,7 +78,7 @@ export async function getSiteContent(): Promise<SiteContent> {
   // 3. Read local data/content.json
   try {
     const raw = readFileSync(CONTENT_PATH, "utf-8")
-    const parsed = JSON.parse(raw) as SiteContent
+    const parsed = migrateLegacyFields(JSON.parse(raw) as SiteContent)
     globalThis._siteContentCache = parsed
     return parsed
   } catch (err) {
