@@ -157,7 +157,18 @@
     "instagramHandle": "@geekspire.robotics"
   },
   "achievements": {
-    "achievements": []
+    "achievements": [
+      {
+        "id": "a-1785208175919",
+        "year": "2026",
+        "title": "1st and 3rd Place at AI Robowar",
+        "subtitle": "Position / Award",
+        "description": "The SIMATS College teams won first place and third in the hackathon held at Sri Easwar Engineering College, Coimbatore.",
+        "icon": "Trophy",
+        "color": "green",
+        "highlight": true
+      }
+    ]
   },
   "contact": {
     "email": "simatsroboticsclub@gmail.com",
