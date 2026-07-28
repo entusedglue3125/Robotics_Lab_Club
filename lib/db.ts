@@ -51,15 +51,15 @@ function stripBase64Images(obj: unknown): unknown {
  */
 function migrateLegacyFields(data: SiteContent): SiteContent {
   if (data.gallery?.images) {
-    data.gallery.images = data.gallery.images.map((img: Record<string, unknown>) => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    data.gallery.images = (data.gallery.images as any[]).map((img: Record<string, unknown>) => {
       const legacyUrl = img.url as string | undefined
       const currentSrc = img.src as string | undefined
       if (legacyUrl && !currentSrc) {
         return { ...img, src: legacyUrl, url: undefined }
       }
       return img
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    }) as any
+    })
   }
   return data
 }
