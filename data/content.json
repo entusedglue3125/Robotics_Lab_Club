@@ -127,22 +127,22 @@
       {
         "id": "g-1",
         "src": "https://raw.githubusercontent.com/entusedglue3125/Robotics_Lab_Club/main/public/uploads/1785262088814_IMG_20260722_123932393_HDR.jpg",
-        "alt": "Vibrant circuit board",
-        "caption": "PCB Assembly Session",
+        "alt": "Industrial Robotic ARM",
+        "caption": "OMRON",
         "span": "col-span-1 row-span-2"
       },
       {
         "id": "g-2",
         "src": "https://raw.githubusercontent.com/entusedglue3125/Robotics_Lab_Club/main/public/uploads/1785346314935_nuralarm.jpeg",
-        "alt": "Robotic hand demo",
-        "caption": "Autonomous Arm Demo",
+        "alt": "Body Gestures ",
+        "caption": "Neural ",
         "span": "col-span-1 row-span-1"
       },
       {
         "id": "g-3",
-        "src": "https://images.unsplash.com/photo-1517077304055-6e89abbf09b0?w=600&q=80",
-        "alt": "Hardware station",
-        "caption": "Hardware Workshop",
+        "src": "https://raw.githubusercontent.com/entusedglue3125/Robotics_Lab_Club/main/public/uploads/1785346679519_AresV2_JJEngenering.jpeg",
+        "alt": "Autonomous ROVER ",
+        "caption": "A.R.E.S",
         "span": "col-span-1 row-span-1"
       },
       {
