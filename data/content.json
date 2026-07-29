@@ -82,12 +82,7 @@
         "prefix": ""
       }
     ],
-    "subStats": [
-      {
-        "label": "New",
-        "val": "0"
-      }
-    ]
+    "subStats": []
   },
   "events": {
     "events": [
