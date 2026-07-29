@@ -56,8 +56,38 @@
     "imageCaption": "LAB IN SESSION"
   },
   "stats": {
-    "stats": [],
-    "subStats": []
+    "stats": [
+      {
+        "value": 229,
+        "label": "Members",
+        "suffix": "",
+        "prefix": ""
+      },
+      {
+        "value": 1,
+        "label": "Workshops Conducted",
+        "suffix": "",
+        "prefix": ""
+      },
+      {
+        "value": 17,
+        "label": "Competitions Participated",
+        "suffix": "",
+        "prefix": ""
+      },
+      {
+        "value": 25,
+        "label": "Projects Built ",
+        "suffix": "",
+        "prefix": ""
+      }
+    ],
+    "subStats": [
+      {
+        "label": "New",
+        "val": "0"
+      }
+    ]
   },
   "events": {
     "events": [
