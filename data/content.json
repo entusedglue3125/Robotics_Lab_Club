@@ -142,28 +142,28 @@
         "id": "g-3",
         "src": "https://raw.githubusercontent.com/entusedglue3125/Robotics_Lab_Club/main/public/uploads/1785346679519_AresV2_JJEngenering.jpeg",
         "alt": "Autonomous ROVER ",
-        "caption": "A.R.E.S",
+        "caption": "A.R.E.S  V_2",
         "span": "col-span-1 row-span-1"
       },
       {
         "id": "g-4",
-        "src": "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=800&q=80",
-        "alt": "Robotics team",
-        "caption": "State Olympiad 2026",
+        "src": "https://raw.githubusercontent.com/entusedglue3125/Robotics_Lab_Club/main/public/uploads/1785348532243_ROBOSOCCER_IIT_M.jpeg",
+        "alt": "",
+        "caption": "Robo Soccer ",
         "span": "col-span-2 row-span-1"
       },
       {
         "id": "g-5",
-        "src": "https://images.unsplash.com/photo-1531746790731-6c087fecd65a?w=600&q=80",
-        "alt": "AI interface",
-        "caption": "Software Sprint",
+        "src": "https://raw.githubusercontent.com/entusedglue3125/Robotics_Lab_Club/main/public/uploads/1785349269429_WhatsApp_Image_2026-07-29_at_11.41.11_PM.jpeg",
+        "alt": "Robotics Workshop ",
+        "caption": "Build A Bot Workshop",
         "span": "col-span-1 row-span-1"
       },
       {
         "id": "g-6",
-        "src": "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=600&q=80",
-        "alt": "Matrix software lab",
-        "caption": "AI Integration Lab",
+        "src": "https://raw.githubusercontent.com/entusedglue3125/Robotics_Lab_Club/main/public/uploads/1785349387201_ARES_V1_Karur.jpeg",
+        "alt": "Autonomous ROVER ",
+        "caption": "A.R.E.S V_1",
         "span": "col-span-1 row-span-1"
       }
     ],
