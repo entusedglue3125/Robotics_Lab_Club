@@ -133,7 +133,7 @@
       },
       {
         "id": "g-2",
-        "src": "https://images.unsplash.com/photo-1561557944-6e7860d1a7eb?w=600&q=80",
+        "src": "https://raw.githubusercontent.com/entusedglue3125/Robotics_Lab_Club/main/public/uploads/1785346314935_nuralarm.jpeg",
         "alt": "Robotic hand demo",
         "caption": "Autonomous Arm Demo",
         "span": "col-span-1 row-span-1"
