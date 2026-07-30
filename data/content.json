@@ -246,18 +246,18 @@
     "socials": [
       {
         "label": "GitHub",
-        "handle": "@geekspire",
-        "href": "#"
+        "handle": "@SimatsRoboticsClub",
+        "href": "https://github.com/SimatsRoboticsClub"
       },
       {
         "label": "Instagram",
-        "handle": "@geekspire.robotics",
-        "href": "#"
+        "handle": "@simats_robotics_club",
+        "href": "https://www.instagram.com/simats_robotics_club"
       },
       {
         "label": "LinkedIn",
-        "handle": "Robotics Lab Club",
-        "href": "#"
+        "handle": "@Robotics Lab Club",
+        "href": "https://www.linkedin.com/in/simats-robotics-club-a07010425/?isSelfProfile=true"
       }
     ],
     "formTitle": "JOIN APPLICATION",
