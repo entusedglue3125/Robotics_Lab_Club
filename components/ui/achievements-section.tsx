@@ -23,15 +23,19 @@ export default function AchievementsSection({ data }: { data?: AchievementsConte
 
         {d.achievements.length > 0 ? (
           <div className="relative">
-            <div className="absolute left-6 md:left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-green-500/30 to-transparent" />
-            <div className="space-y-8">
+            {/* Glowing Vertical Timeline Line & Animated Pulse Beam */}
+            <div className="timeline-line z-0">
+              <div className="timeline-pulse-beam" />
+            </div>
+
+            <div className="space-y-8 relative z-10">
               {d.achievements.map((item, i) => {
                 const isLeft = i % 2 === 0
                 const Icon = iconMap[item.icon] ?? Trophy
                 return (
-                  <div key={item.id} className={`relative flex ${isLeft ? "md:flex-row" : "md:flex-row-reverse"} gap-0`}>
+                  <div key={item.id} className={`group relative flex ${isLeft ? "md:flex-row" : "md:flex-row-reverse"} gap-0`}>
                     <div className={`w-full md:w-5/12 pl-14 md:pl-0 ${isLeft ? "md:pr-8 md:text-right" : "md:pl-8"}`}>
-                      <div className={`glass-card rounded-sm p-5 group ${item.highlight ? "glow-box" : ""}`}>
+                      <div className={`glass-card rounded-sm p-5 ${item.highlight ? "glow-box" : ""}`}>
                         {item.highlight && (
                           <div className="mb-2"><span className="text-xs font-mono text-green-400 tracking-widest">⭐ FEATURED WIN</span></div>
                         )}
@@ -44,9 +48,26 @@ export default function AchievementsSection({ data }: { data?: AchievementsConte
                         <p className="text-slate-600 text-xs font-mono leading-relaxed">{item.description}</p>
                       </div>
                     </div>
-                    <div className="absolute left-6 md:left-1/2 top-6 -translate-x-1/2 flex items-center justify-center">
-                      <div className="w-3 h-3 rounded-full border-2 bg-green-500 border-green-400 shadow-[0_0_4px_rgba(34,197,94,0.3)]" />
+
+                    {/* Timeline Node Dot & Horizontal Connector Line */}
+                    <div className="absolute left-6 md:left-1/2 top-6 -translate-x-1/2 flex items-center justify-center z-20">
+                      {/* Pulsing Outer Aura */}
+                      <div className="absolute w-7 h-7 rounded-full bg-green-500/20 animate-ping pointer-events-none" />
+
+                      {/* Main Node Dot */}
+                      <div className="relative w-4 h-4 rounded-full border-2 border-green-300 bg-green-500 timeline-dot-pulse group-hover:scale-125 group-hover:bg-green-400 group-hover:border-white transition-all duration-300 shadow-[0_0_12px_rgba(34,197,94,0.9)]" />
+
+                      {/* Mobile Horizontal Connector */}
+                      <div className="block md:hidden absolute left-full top-1/2 -translate-y-1/2 w-8 h-[2px] bg-gradient-to-r from-green-400 via-green-500 to-green-500/40 shadow-[0_0_8px_rgba(34,197,94,0.8)] group-hover:shadow-[0_0_12px_rgba(0,255,100,1)] group-hover:h-[3px] timeline-connector-flow-right transition-all duration-300" />
+
+                      {/* Desktop Horizontal Connector */}
+                      <div className={`hidden md:block absolute top-1/2 -translate-y-1/2 h-[2px] w-8 shadow-[0_0_8px_rgba(34,197,94,0.8)] group-hover:shadow-[0_0_14px_rgba(0,255,100,1)] group-hover:h-[3px] transition-all duration-300 ${
+                        isLeft
+                          ? "right-full bg-gradient-to-l from-green-400 via-green-500 to-green-500/30 timeline-connector-flow-left"
+                          : "left-full bg-gradient-to-r from-green-400 via-green-500 to-green-500/30 timeline-connector-flow-right"
+                      }`} />
                     </div>
+
                     <div className="hidden md:block w-5/12" />
                   </div>
                 )

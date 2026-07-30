@@ -346,16 +346,94 @@
   width: 100%;
 }
 
-/* ===== TIMELINE ===== */
+/* ===== TIMELINE ANIMATIONS & STYLES ===== */
+@keyframes timeline-beam {
+  0% {
+    top: -10%;
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+  }
+  80% {
+    opacity: 1;
+  }
+  100% {
+    top: 105%;
+    opacity: 0;
+  }
+}
+
+@keyframes line-flow-right {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@keyframes line-flow-left {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+@keyframes dot-pulse {
+  0%, 100% {
+    box-shadow: 0 0 8px rgba(34, 197, 94, 0.8), 0 0 16px rgba(34, 197, 94, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 18px rgba(34, 197, 94, 1), 0 0 32px rgba(34, 197, 94, 0.8);
+  }
+}
+
 .timeline-line {
   position: absolute;
-  left: 50%;
+  left: 1.5rem;
   top: 0;
   bottom: 0;
-  width: 1px;
-  background: linear-gradient(to bottom, transparent, #22c55e, transparent);
-  transform: translateX(-50%);
+  width: 2px;
+  background: linear-gradient(180deg, rgba(34, 197, 94, 0.2) 0%, rgba(34, 197, 94, 0.85) 15%, rgba(34, 197, 94, 0.85) 85%, rgba(34, 197, 94, 0.2) 100%);
+  box-shadow: 0 0 8px rgba(34, 197, 94, 0.6), 0 0 2px rgba(34, 197, 94, 0.9);
+  overflow: hidden;
 }
+
+@media (min-width: 768px) {
+  .timeline-line {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
+
+.timeline-pulse-beam {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 140px;
+  background: linear-gradient(to bottom, transparent, #22c55e, #ffffff, #22c55e, transparent);
+  box-shadow: 0 0 12px #22c55e, 0 0 24px #22c55e;
+  border-radius: 9999px;
+  animation: timeline-beam 3.5s ease-in-out infinite;
+}
+
+.timeline-connector-flow-right {
+  background-size: 200% 100%;
+  animation: line-flow-right 2.5s linear infinite;
+}
+
+.timeline-connector-flow-left {
+  background-size: 200% 100%;
+  animation: line-flow-left 2.5s linear infinite;
+}
+
+.timeline-dot-pulse {
+  animation: dot-pulse 2.5s ease-in-out infinite;
+}
+
 
 /* ===== TAG / BADGE ===== */
 .matrix-tag {
