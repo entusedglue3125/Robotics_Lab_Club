@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { Menu, X, Cpu } from "lucide-react"
+import { Menu, X } from "lucide-react"
 
 const navLinks = [
   { label: "About", href: "#about" },
@@ -19,16 +19,6 @@ export default function Navbar() {
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-black border-b border-green-500/20 py-3">
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 flex items-center justify-between">
-        {/* Logo */}
-        <a href="#hero" className="flex items-center gap-2 group">
-          <div className="w-8 h-8 border border-green-500 flex items-center justify-center glow-box group-hover:bg-green-500/10 transition-colors">
-            <Cpu size={16} className="text-green-400" />
-          </div>
-          <span className="font-mono font-bold text-white tracking-widest text-sm">
-            ROBOTICS LAB <span className="text-green-400">CLUB</span>
-          </span>
-        </a>
-
         {/* Desktop links */}
         <ul className="hidden md:flex items-center gap-6">
           {navLinks.map((link) => (
