@@ -3,8 +3,8 @@ import { getSiteContent, setSiteContent } from "@/lib/db"
 
 function isAuthorized(req: NextRequest): boolean {
   const password = req.headers.get("x-admin-password")
-  const expectedPassword = process.env.ADMIN_PASSWORD || "Ch@kr@dh@r9116"
-  return password === expectedPassword
+  const expectedPassword = process.env.ADMIN_PASSWORD
+  return Boolean(expectedPassword && password === expectedPassword)
 }
 
 export async function GET(req: NextRequest) {
