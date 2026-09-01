@@ -35,7 +35,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${spaceMono.variable} h-full`}
+      className={`dark ${inter.variable} ${spaceMono.variable} h-full`}
     >
       <body className="min-h-full bg-black text-white antialiased overflow-x-hidden">
         {children}

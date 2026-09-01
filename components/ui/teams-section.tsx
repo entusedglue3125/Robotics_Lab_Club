@@ -2,11 +2,22 @@
 
 import { GitBranch, Link2 } from "lucide-react"
 import type { TeamsContent } from "@/lib/content-types"
+import { AnimatedTestimonials } from "@/components/ui/animated-testimonials"
 
 const DEFAULT: TeamsContent = { teams: [] }
 
 export default function TeamsSection({ data }: { data?: TeamsContent }) {
   const d = data ?? DEFAULT
+
+  // Extract leadership / core members for the animated spotlight
+  const leadershipMembers = d.teams.flatMap((team) =>
+    team.members.map((member) => ({
+      quote: member.focus ? `Focus: ${member.focus}` : "Driving innovation, design, and engineering excellence across all robotics divisions.",
+      name: member.name,
+      designation: `${member.role}${team.division ? ` · ${team.division}` : ""}`,
+      src: member.image || "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=3560&auto=format&fit=crop",
+    }))
+  )
 
   return (
     <section id="teams" className="relative bg-black py-24 px-4">
@@ -14,16 +25,28 @@ export default function TeamsSection({ data }: { data?: TeamsContent }) {
       <div className="absolute inset-0 pixel-bg opacity-20" />
 
       <div className="relative z-10 max-w-6xl mx-auto">
-        <div className="text-center mb-16">
+        <div className="text-center mb-12">
           <span className="matrix-tag mb-4 inline-block">// TEAM_ROSTER</span>
           <h2 className="text-4xl md:text-5xl font-mono font-bold text-white mt-4">
-            Meet the <span className="gradient-text">Engineers</span>
+            Meet the <span className="gradient-text">Engineers & Leadership</span>
           </h2>
           <div className="matrix-divider mt-6 max-w-xs mx-auto" />
           <p className="text-slate-500 text-sm font-mono mt-6 max-w-lg mx-auto">
             A collective of passionate builders, thinkers, and problem-solvers.
           </p>
         </div>
+
+        {/* Animated Leadership Spotlight */}
+        {leadershipMembers.length > 0 && (
+          <div className="mb-16 rounded-xl border border-green-500/20 bg-black/40 backdrop-blur-sm p-4 md:p-8">
+            <div className="flex items-center gap-3 mb-2">
+              <span className="matrix-tag">SPOTLIGHT</span>
+              <h3 className="font-mono text-sm text-slate-400 tracking-wider">LEADERSHIP SPOTLIGHT</h3>
+              <div className="flex-1 h-px bg-green-500/10" />
+            </div>
+            <AnimatedTestimonials testimonials={leadershipMembers} autoplay={true} />
+          </div>
+        )}
 
         {d.teams.map((team) => (
           <div key={team.id} className="mb-14">
@@ -46,12 +69,16 @@ export default function TeamsSection({ data }: { data?: TeamsContent }) {
                     <p className="text-green-400 text-xs font-mono mt-0.5">{member.role}</p>
                     <p className="text-slate-600 text-xs font-mono mt-1 leading-relaxed">{member.focus}</p>
                     <div className="flex gap-2 mt-3">
-                      <a href={member.github} className="text-slate-600 hover:text-green-400 transition-colors" aria-label={`${member.name} GitHub`}>
-                        <GitBranch size={13} />
-                      </a>
-                      <a href={member.linkedin} className="text-slate-600 hover:text-green-400 transition-colors" aria-label={`${member.name} LinkedIn`}>
-                        <Link2 size={13} />
-                      </a>
+                      {member.github && (
+                        <a href={member.github} className="text-slate-600 hover:text-green-400 transition-colors" aria-label={`${member.name} GitHub`}>
+                          <GitBranch size={13} />
+                        </a>
+                      )}
+                      {member.linkedin && (
+                        <a href={member.linkedin} className="text-slate-600 hover:text-green-400 transition-colors" aria-label={`${member.name} LinkedIn`}>
+                          <Link2 size={13} />
+                        </a>
+                      )}
                     </div>
                   </div>
                 </div>
