@@ -215,17 +215,6 @@
   "achievements": {
     "achievements": [
       {
-        "id": "a-1785208175919",
-        "year": "2026",
-        "title": "1st and 3rd Place at AI Robowar",
-        "subtitle": "Position / Award",
-        "description": "The SIMATS College teams won first place and third in the hackathon held at Sri Easwar Engineering College, Coimbatore.",
-        "icon": "Trophy",
-        "color": "green",
-        "highlight": true,
-        "image": "https://raw.githubusercontent.com/entusedglue3125/Robotics_Lab_Club/main/public/uploads/1788297583885_newspaperartical.jpeg"
-      },
-      {
         "id": "a-1785208591020",
         "year": "2026",
         "title": "2nd place M Kumaraswamy College of engineering",
@@ -233,8 +222,7 @@
         "description": "21st February, Hackathon conducted by M Kumaraswamy College of engineering,2nd Prize",
         "icon": "Trophy",
         "color": "green",
-        "highlight": false,
-        "image": "https://raw.githubusercontent.com/entusedglue3125/Robotics_Lab_Club/main/public/uploads/1788297618224_ARES_V1_Karur.jpeg"
+        "highlight": false
       },
       {
         "id": "a-1785208756447",
@@ -244,8 +232,7 @@
         "description": "1-2 April , Hackathon conducted by JJ Engineering College 2nd Prize",
         "icon": "Trophy",
         "color": "green",
-        "highlight": false,
-        "image": "https://raw.githubusercontent.com/entusedglue3125/Robotics_Lab_Club/main/public/uploads/1788297628715_AresV2_JJEngenering.jpeg"
+        "highlight": false
       },
       {
         "id": "a-1785208820708",
@@ -255,8 +242,7 @@
         "description": "July 5, Hackathon conducted by Pixor robotics at dindigul , we won 2nd place",
         "icon": "Trophy",
         "color": "green",
-        "highlight": false,
-        "image": "https://raw.githubusercontent.com/entusedglue3125/Robotics_Lab_Club/main/public/uploads/1788297677991_nuralarm.jpeg"
+        "highlight": false
       }
     ]
   },
