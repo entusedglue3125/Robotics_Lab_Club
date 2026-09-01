@@ -1,5 +1,6 @@
 "use client"
 import { Field, Input, Textarea, Select, Card, SectionTitle, AddBtn, RemoveBtn, type TabProps } from "./shared"
+import ImageUpload from "./image-upload"
 
 export default function AchievementsTab({ content, setContent }: TabProps) {
   const ach = content.achievements.achievements
@@ -11,7 +12,7 @@ export default function AchievementsTab({ content, setContent }: TabProps) {
       <div className="flex justify-end">
         <AddBtn label="ADD ACHIEVEMENT" onClick={() => upd([...ach, {
           id: `a-${Date.now()}`, year: "2026", title: "New Achievement", subtitle: "Position / Award",
-          description: "Description...", icon: "Trophy", color: "green" as const, highlight: false,
+          description: "Description...", icon: "Trophy", color: "green" as const, highlight: false, image: "",
         }])} />
       </div>
       <div className="space-y-4">
@@ -47,9 +48,16 @@ export default function AchievementsTab({ content, setContent }: TabProps) {
                   onChange={e => { const a=[...ach]; a[i]={...a[i],highlight:e.target.value==="true"}; upd(a) }} />
               </Field>
             </div>
-            <Field label="Description">
-              <Textarea rows={2} value={item.description} onChange={e => { const a=[...ach]; a[i]={...a[i],description:e.target.value}; upd(a) }} />
-            </Field>
+            <div className="mb-3">
+              <Field label="Description">
+                <Textarea rows={2} value={item.description} onChange={e => { const a=[...ach]; a[i]={...a[i],description:e.target.value}; upd(a) }} />
+              </Field>
+            </div>
+            <ImageUpload
+              label="Victory / Trophy Image (Optional)"
+              value={item.image || ""}
+              onChange={url => { const a=[...ach]; a[i]={...a[i],image:url}; upd(a) }}
+            />
           </Card>
         ))}
       </div>

@@ -100,6 +100,7 @@ export interface Achievement {
   icon: string
   color: "green" | "cyan"
   highlight: boolean
+  image?: string
 }
 
 export interface AchievementsContent {
