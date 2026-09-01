@@ -215,6 +215,17 @@
   "achievements": {
     "achievements": [
       {
+        "id": "a-1785208175919",
+        "year": "2026",
+        "title": "1st and 3rd Place at AI Robowar",
+        "subtitle": "Position / Award",
+        "description": "The SIMATS College teams won first place and third in the hackathon held at Sri Easwar Engineering College, Coimbatore.",
+        "icon": "Trophy",
+        "color": "green",
+        "highlight": true,
+        "image": "https://raw.githubusercontent.com/entusedglue3125/Robotics_Lab_Club/main/public/uploads/1788297583885_newspaperartical.jpeg"
+      },
+      {
         "id": "a-1785208591020",
         "year": "2026",
         "title": "2nd place M Kumaraswamy College of engineering",
