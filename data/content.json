@@ -233,7 +233,8 @@
         "description": "21st February, Hackathon conducted by M Kumaraswamy College of engineering,2nd Prize",
         "icon": "Trophy",
         "color": "green",
-        "highlight": false
+        "highlight": false,
+        "image": "https://raw.githubusercontent.com/entusedglue3125/Robotics_Lab_Club/main/public/uploads/1788333820822_ARES_V1_Karur.jpeg"
       },
       {
         "id": "a-1785208756447",
@@ -243,7 +244,8 @@
         "description": "1-2 April , Hackathon conducted by JJ Engineering College 2nd Prize",
         "icon": "Trophy",
         "color": "green",
-        "highlight": false
+        "highlight": false,
+        "image": "https://raw.githubusercontent.com/entusedglue3125/Robotics_Lab_Club/main/public/uploads/1788333825310_AresV2_JJEngenering.jpeg"
       },
       {
         "id": "a-1785208820708",
@@ -253,7 +255,8 @@
         "description": "July 5, Hackathon conducted by Pixor robotics at dindigul , we won 2nd place",
         "icon": "Trophy",
         "color": "green",
-        "highlight": false
+        "highlight": false,
+        "image": "https://raw.githubusercontent.com/entusedglue3125/Robotics_Lab_Club/main/public/uploads/1788333829142_nuralarm.jpeg"
       }
     ]
   },
